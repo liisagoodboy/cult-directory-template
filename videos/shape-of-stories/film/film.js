@@ -14,11 +14,13 @@ const LW = 7;                                            // 粉笔线宽 ≈ 画
 const X1 = 2200, X2 = 4400;
 const FONT = '"LXGWWenKai-500"';
 // 分句起点（秒，绝对时间）：句首 + 波形里逗号停顿的结束点
+// CUE[i].ph = 该句每个分句的开口时刻（build_audio.py 从录音的停顿里量出来）；换一条录音，卡点自动跟着走
+const ph = (i, k) => CUE[i].ph[k];
 const PH = {
-  goodUp: CUE[2].t0 + 1.84, end3: CUE[3].t0 + 1.87,
-  fall: CUE[5].t0 + 2.32, climb: CUE[5].t0 + 3.81,
-  meet: CUE[8].t0 + 1.52, rise2: CUE[10].t0 + 1.56,
-  name1: CUE[4].t0 + 1.76, name2: CUE[7].t0 + 1.71,
+  goodUp: ph(2, 1), badDown: ph(2, 2), end3: ph(3, 1),
+  fall: ph(5, 1), climb: ph(5, 2),
+  meet: ph(8, 1), rise2: ph(10, 1),
+  name1: ph(4, 1), name2: ph(7, 1),
 };
 VS.PH = PH;
 
@@ -93,7 +95,7 @@ const T_TITLE_END = B.cur;
 // ===== ② 坐标系一（X1）：画一个坐标系 → 纵轴运气 G/I → 横轴时间 B/E =====
 axes(X1, CUE[1].t0 + 0.35, false);
 at(CUE[2].t0 + 0.3); text(X1, '运', 62, 492, 46, { rate: 3 }); text(X1, '气', 62, 548, 46, { rate: 3 });
-yLabels(X1, PH.goodUp + 0.15, PH.goodUp + 1.25, 5);
+yLabels(X1, PH.goodUp + 0.15, PH.badDown + 0.15, 5);
 at(CUE[3].t0 + 0.3); text(X1, '时间', 1555, 478, 40, { rate: 3.5 });
 xLabels(X1, PH.end3 + 0.1, PH.end3 + 1.15, 6);
 const T_AXES1_END = B.cur;

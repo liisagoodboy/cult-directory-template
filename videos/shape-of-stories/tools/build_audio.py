@@ -10,7 +10,7 @@ for i, (ln, t0) in enumerate(zip(lines, START)):
     k = int(t0 * sr); buf[k:k + len(x)] += x
     t1 = t0 + len(x) / sr
     if i + 1 < len(START): assert t1 + 0.3 < START[i + 1], (i, t1)
-    cues.append({"i": i, "t0": round(t0, 3), "t1": round(t1, 3), "sub": ln["sub"], "tts": ln["tts"]})
+    cues.append({"i": i, "t0": round(t0, 3), "t1": round(t1, 3), "ph": [round(t0 + p, 3) for p in meta["lines"][i].get("ph", [0])], "sub": ln["sub"], "tts": ln["tts"]})
 peak = np.abs(buf).max(); buf *= 0.89 / peak                          # 峰值 -1 dBFS
 sf.write(f"{PROJ}/音频/narration.wav", buf, sr)
 open(f"{PROJ}/代码工程/demos/shape_stories/timing.js", "w").write(
