@@ -34,7 +34,7 @@ const fit = (d, gap = 0.02) => { const s = B.S[B.S.length - 1]; s.t1 = s.t0 + d;
 const L = (X, pts) => pts.map(([x, y]) => [X + x, y]);
 const line = (X, pts, d, o = {}) => { B.line(L(X, pts), o); if (d) fit(d, o.gap); };
 const text = (X, str, x, y, size, o = {}) => B.text(str, X + x, y, size, o);
-const pop = (X, str, x, y, size, o = {}) => B.pop(str, X + x, y, size, o);
+const pop = (X, str, x, y, size, o = {}) => { B.pop(str, X + x, y, size, o); B.cur -= 0.07; };
 
 // ---------- 小画：火柴人、心、碎心、星、虚线 ----------
 const stick = (X, x, y, h, pose = 'stand', col = CHALK, d = 1.0) => {
@@ -85,9 +85,9 @@ const xLabels = (X, tB, tE, rate) => {          // B 在左（原点旁）、E �
 };
 
 // ===== ① 片名板（X0 = 0） =====
-at(0.7); B.text('故事的形状', 960, 440, 168, { align: 'center', rate: 2.3 });
-at(3.4); B.text('The Shapes of Stories', 960, 560, 62, { align: 'center', rate: 13 });
-at(5.3); B.text('—— 库尔特·冯内古特  Kurt Vonnegut', 960, 665, 44, { align: 'center', rate: 15, col: YEL });
+at(0.4); B.text('故事的形状', 960, 440, 168, { align: 'center', rate: 3.5 });
+B.text('The Shapes of Stories', 960, 560, 62, { align: 'center', rate: 24 });
+B.text('—— 库尔特·冯内古特  Kurt Vonnegut', 960, 665, 44, { align: 'center', rate: 26, col: YEL });
 // 「每个故事都有形状」：题下画一条小小的起伏线，预告后面的曲线
 at(CUE[0].t0 + 1.8); B.line([[700, 780], [800, 790], [880, 830], [960, 850], [1040, 830], [1130, 780], [1240, 745]], { col: YEL }); fit(1.9);
 const T_TITLE_END = B.cur;
@@ -102,8 +102,8 @@ const T_AXES1_END = B.cur;
 
 // ===== ③ 掉进坑里的人（Man in Hole） =====
 at(PH.name1 + 0.2); text(X1, '① 掉进坑里的人', 360, 112, 64, { col: YEL, rate: 5 });
-text(X1, 'Man in Hole', 860, 112, 46, { rate: 9 });
-at(CUE[4].t1 + 0.4); stick(X1, 330, 438, 84, 'walk', CHALK, 1.2);          // 主角：站在开局的地方（中间偏上）
+text(X1, 'Man in Hole', 860, 112, 46, { rate: 14 });
+at(CUE[4].t1 + 0.4); stick(X1, 330, 438, 84, 'walk', CHALK, 0.7);          // 主角：站在开局的地方（中间偏上）
 // 曲线卡口播三个分句：惹上麻烦（往下滑）→ 跌进低谷 → 再爬出来
 const MH = [[262, 440], [400, 452], [520, 520], [640, 650]];
 const MH2 = [[640, 650], [740, 742], [860, 778], [960, 752]];
@@ -123,17 +123,17 @@ star(X1, 1555, 770, 22); star(X1, 1600, 812, 15);
 const T_HOLE_END = B.cur;
 
 // ===== ④ 坐标系二（X2）＋ 男孩遇见女孩（Boy Meets Girl） =====
-const AX2 = CUE[6].t1 + 7.6;                                                 // 相机到位后快速画好第二个坐标系（无旁白）
+const AX2 = CUE[6].t1 + 3.25;                                                 // 相机到位后快速画好第二个坐标系（无旁白）
 axes(X2, AX2, true);
 at(B.cur + 0.05); pop(X2, 'G', 150, 225, 84, { col: YEL }); pop(X2, '好运', 150, 280, 40); pop(X2, 'Good fortune', 150, 316, 30);
-at(B.cur + 0.15); pop(X2, '厄运', 150, 712, 40); pop(X2, 'Ill fortune', 150, 748, 30); pop(X2, 'I', 150, 840, 84, { col: YEL });
-at(B.cur + 0.15); pop(X2, 'B', 212, 538, 70, { col: YEL }); pop(X2, '开头', 300, 565, 36, { align: 'left' }); pop(X2, 'Beginning', 300, 600, 30, { align: 'left' });
-at(B.cur + 0.15); pop(X2, 'E', 1790, 538, 70, { col: YEL }); pop(X2, '结尾', 1745, 580, 36); pop(X2, 'End', 1745, 615, 30);
+at(B.cur + 0.08); pop(X2, '厄运', 150, 712, 40); pop(X2, 'Ill fortune', 150, 748, 30); pop(X2, 'I', 150, 840, 84, { col: YEL });
+at(B.cur + 0.08); pop(X2, 'B', 212, 538, 70, { col: YEL }); pop(X2, '开头', 300, 565, 36, { align: 'left' }); pop(X2, 'Beginning', 300, 600, 30, { align: 'left' });
+at(B.cur + 0.08); pop(X2, 'E', 1790, 538, 70, { col: YEL }); pop(X2, '结尾', 1745, 580, 36); pop(X2, 'End', 1745, 615, 30);
 at(B.cur + 0.1); pop(X2, '运', 82, 492, 46); pop(X2, '气', 82, 548, 46); pop(X2, '时间', 1555, 478, 40, { align: 'left' });
 const T_AXES2_END = B.cur;
 at(PH.name2 + 0.2); text(X2, '② 男孩遇见女孩', 360, 112, 64, { col: YEL, rate: 5 });
-text(X2, 'Boy Meets Girl', 860, 112, 46, { rate: 10 });
-at(CUE[7].t1 + 0.5); stick(X2, 330, 462, 84, 'stand', CHALK, 1.2);
+text(X2, 'Boy Meets Girl', 860, 112, 46, { rate: 16 });
+at(CUE[7].t1 + 0.5); stick(X2, 330, 462, 84, 'stand', CHALK, 0.7);
 // 平淡开局 → 遇见心动的人冲上高峰
 const BG1 = [[262, 470], [400, 466], [560, 472]];
 const BG2 = [[560, 472], [680, 404], [780, 282], [860, 236]];
@@ -154,7 +154,7 @@ const T_GIRL_END = B.cur;
 
 // ===== ⑤ 点题：拉远看到两条曲线，在下方写结论 =====
 const CX = (X1 + X2 + 1920) / 2, CY = 1190;
-at(CUE[11].t1 + 0.45); B.text('故事 + 数据可视化 = 用数学看懂叙事', CX, CY, 118, { align: 'center', rate: 4.2 });
+at(CUE[11].t1 + 0.45); B.text('故事 + 数据可视化 = 用数学看懂叙事', CX, CY, 118, { align: 'center', rate: 6 });
 line(0, [[CX - 900, CY + 42], [CX - 300, CY + 52], [CX + 300, CY + 40], [CX + 900, CY + 50]], 1.0, { col: YEL, w: 8 });
 const T_END = B.cur;
 VS.timeline = { T_TITLE_END, T_AXES1_END, T_HOLE_END, AX2, T_AXES2_END, T_GIRL_END, T_END };
@@ -162,15 +162,15 @@ VS.timeline = { T_TITLE_END, T_AXES1_END, T_HOLE_END, AX2, T_AXES2_END, T_GIRL_E
 // ---------- 相机 ----------
 const P1 = { x: X1 + 960, y: 540, z: 1 }, P2 = { x: X2 + 960, y: 540, z: 1 };
 const OVER = { x: CX, y: 665, z: 0.455 };
-const MV1 = CUE[0].t1 + 1.6, MV2 = CUE[6].t1 + 4.8, MV3 = CUE[10].t1 + 4.8;
+const MV1 = CUE[0].t1 + 0.6, MV2 = CUE[6].t1 + 1.45, MV3 = CUE[10].t1 + 3.15;
 const camAt = ft => CAM.at([
   { t: 0, x: 960, y: 560, z: 1.0 },
   { t: MV1, x: 966, y: 548, z: 1.03, ease: MO.sineInOut },
-  { t: MV1 + 2.6, ...P1, ease: MO.sineInOut },                               // 板上平滑移动到坐标系一
+  { t: MV1 + 2.0, ...P1, ease: MO.sineInOut },                               // 板上平滑移动到坐标系一
   { t: MV2, x: P1.x + 14, y: P1.y + 4, z: 1.02, ease: MO.sineInOut },
-  { t: MV2 + 2.6, ...P2, ease: MO.sineInOut },                               // 移到坐标系二
+  { t: MV2 + 2.0, ...P2, ease: MO.sineInOut },                               // 移到坐标系二
   { t: MV3, x: P2.x + 14, y: P2.y + 4, z: 1.02, ease: MO.sineInOut },
-  { t: MV3 + 4.0, ...OVER, ease: MO.sineInOut },                             // 拉远看全图
+  { t: MV3 + 3.0, ...OVER, ease: MO.sineInOut },                             // 拉远看全图
   { t: window.FILM_DURATION, ...OVER, z: OVER.z * 1.04, ease: MO.sineInOut },
 ], ft);
 VS.camAt = camAt;
@@ -260,5 +260,7 @@ const init = () => {
   U.assertGlyphs('"PuHui-Medium"', CUE.map(q => q.sub).join(''), 'shape_stories 字幕');
 };
 for (const id of ['vs_title', 'vs_axes', 'vs_hole', 'vs_girl', 'vs_end']) SCENES[id] = { draw: shot };
+{ const cut = [MV1 + 2.0, CUE[4].t0 - 0.3, MV2 + 2.0, MV3 + 3.0, window.FILM_DURATION]; let a = 0;
+  ERAS.forEach((e, i) => { e.dur = +(cut[i] - a).toFixed(3); a = cut[i]; }); }
 SCENES.vs_title.init = init;
 })();

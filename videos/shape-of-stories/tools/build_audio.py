@@ -2,8 +2,14 @@
 import json, sys, numpy as np, soundfile as sf
 CAND, LINES, PROJ = sys.argv[1:4]
 lines = json.load(open(LINES)); meta = json.load(open(f"{CAND}/meta.json")); sr = meta["sr"]
-START = [8.0, 18.5, 22.5, 28.5, 39.0, 45.0, 55.0, 71.0, 77.0, 84.0, 89.0, 105.0]
-TOTAL = 122.0
+# 每句开口 = 上一句说完 + GAP（第一句是片名写完的时刻）。GAP 只留画图需要的时间：
+#   画坐标轴、标签、小人、心、相机移动（2s）、第二坐标系、拉远（3s）……
+GAP = [4.3, 2.6, 1.6, 0.5, 1.6, 1.6, 2.2, 5.8, 1.3, 1.3, 1.6, 5.4]
+TAIL = 7.5                                                            # 最后一句后：写结论＋停留
+durs = [sf.info(f"{CAND}/{i:02d}.wav").duration for i in range(len(lines))]
+START = []
+for i, g in enumerate(GAP): START.append(round(g if i == 0 else START[-1] + durs[i - 1] + g, 2))
+TOTAL = round(START[-1] + durs[-1] + TAIL, 1)
 buf = np.zeros(int(TOTAL * sr), np.float32); cues = []
 for i, (ln, t0) in enumerate(zip(lines, START)):
     x, r = sf.read(f"{CAND}/{i:02d}.wav", dtype="float32"); assert r == sr
